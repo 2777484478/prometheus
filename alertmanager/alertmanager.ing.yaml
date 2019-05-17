@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+   name: alertmanager
+   namespace: kube-system
+spec:
+   rules:
+   - host: es-alertmanager.digiwincloud.com.cn 
+     http:
+       paths:
+       - path: /
+         backend:
+          serviceName: alertmanager
+          servicePort: 9093

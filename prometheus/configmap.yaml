@@ -5,6 +5,12 @@ metadata:
   namespace: kube-system
 data:
   prometheus.yml: |
+    rule_files:
+    - /etc/prometheus/rules.yml
+    alerting:
+      alertmanagers:
+      - static_configs:
+        - targets: ["alertmanager:9093"]
     global:
       scrape_interval:     15s
       evaluation_interval: 15s
@@ -154,3 +160,41 @@ data:
       - source_labels: [__meta_kubernetes_pod_name]
         action: replace
         target_label: kubernetes_pod_name
+
+    - job_name: 'pinpoint'
+      static_configs:
+        - targets: ['192.168.0.169:9100']
+
+    - job_name: 'wechat'
+      static_configs:
+        - targets: ['47.98.101.85:9100']
+
+    - job_name: 'harbor'
+      static_configs:
+        - targets: ['47.96.181.128:9100']
+
+    - job_name: 'git'
+      static_configs:
+        - targets: ['47.100.239.15:9100']
+
+
+
+  rules.yml: |
+    groups:
+    - name: example
+      rules:
+      - alert: InstanceDown
+        expr: up == 0
+        for: 5m
+        labels:
+          severity: page
+        annotations:
+          summary: "Instance {{ $labels.instance }} down"
+          description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."
+      - alert: APIHighRequestLatency
+        expr: api_http_request_latencies_second{quantile="0.5"} > 1
+        for: 10m
+        annotations:
+          summary: "High request latency on {{ $labels.instance }}"
+          description: "{{ $labels.instance }} has a median request latency above 1s (current value: {{ $value }}s)"
+
