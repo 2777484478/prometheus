@@ -177,6 +177,14 @@ data:
       static_configs:
         - targets: ['47.100.239.15:9100']
 
+    - job_name: 'taiwanpinpoint'
+      static_configs:
+        - targets: ['13.78.28.136:9100']
+
+    - job_name: 'Pushgateway'
+      static_configs:
+        - targets: ['13.78.28.136:9091']
+
 
 
   rules.yml: |
@@ -197,4 +205,9 @@ data:
         annotations:
           summary: "High request latency on {{ $labels.instance }}"
           description: "{{ $labels.instance }} has a median request latency above 1s (current value: {{ $value }}s)"
-
+      - alert: 磁盘占用超过90%
+        expr: 100 - (node_filesystem_avail_bytes / node_filesystem_size_bytes *100) > 90
+        for: 10s
+        annotations:
+          summary: "{{ $labels.job}} - {{ $labels.instance }} 磁盘占用超过90%"
+          description: "应用名:{{ $labels.job }}实例名:{{ $labels.instance }}环境:{{ $labels.env }}当前值:{{ $value }}"

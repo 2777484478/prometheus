@@ -21,3 +21,4 @@ data:
     - name: 'default-receiver'
       email_configs:
       - to: '2777484478@qq.com'
+      - to: 'chenxinga@digiwin.com'
