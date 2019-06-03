@@ -7,9 +7,9 @@ data:
   config.yml: |-
     global:
       smtp_smarthost: 'smtp.163.com:465'
-      smtp_from: '18652085031@163.com'
-      smtp_auth_username: '18652085031@163.com'
-      smtp_auth_password: 'aykj83752661'
+      smtp_from: 'xxxxx@163.com'
+      smtp_auth_username: 'xxxxx@163.com'
+      smtp_auth_password: 'xxxxx'
       smtp_require_tls: false
     route:
       group_by: [alertname]
@@ -20,5 +20,5 @@ data:
     receivers:
     - name: 'default-receiver'
       email_configs:
-      - to: '2777484478@qq.com'
-      - to: 'chenxinga@digiwin.com'
+      - to: 'xxxxx@qq.com'
+      - to: 'xxxxx@digiwin.com'
